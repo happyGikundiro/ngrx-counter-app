@@ -1,9 +1,17 @@
-<div class="bg-white p-6 rounded-xl">
-    <p class="text-center text-2xl py-5">0</p>
+<div class="bg-white p-6 rounded-xl ">
+    <p class="text-center text-2xl py-5">{{counts$ | async}}</p>
 
-    <div class="flex gap-8">
-        <app-button text="Increment"></app-button>
-        <app-button text="Decrement"></app-button>
-        <app-button text="Reset"></app-button>
+    <div class="block  sm:flex gap-8">
+        <div>
+        <app-button text="Increment" (click)="increment()"></app-button>
+        </div>
+
+        <div>
+        <app-button text="Decrement" (click)="decrement()"></app-button>
+        </div>
+
+        <div>
+        <app-button text="Reset" (click)="reset()"></app-button>
+        </div>
     </div>
 </div>
