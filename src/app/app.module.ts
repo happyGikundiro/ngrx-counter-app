@@ -9,6 +9,8 @@ import { StoreModule } from '@ngrx/store';
 import { counterReducer } from './store/reducers/counter.reducer';
 import { counterHistoryReducer } from './store/reducers/counter-history.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { appReducer } from './store/reducers/app.reducer';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,9 +21,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     StoreModule.forRoot({
       counter: counterReducer,
-      counterHistory: counterHistoryReducer
+      counterHistory: counterHistoryReducer,
+      app: appReducer
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

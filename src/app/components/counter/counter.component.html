@@ -1,30 +1,42 @@
-<div class="bg-white p-6 rounded-xl ">
-    <p class="text-center text-2xl py-5">{{counts$ | async}}</p>
-
-    <div class="block  sm:flex gap-8">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="bg-white p-6 rounded-xl ">
+      <p class="text-center text-2xl py-5">{{counts$ | async}}</p>
+  
+      <div class="block sm:flex gap-8">
         <div>
-        <app-button text="Increment" (click)="increment()"></app-button>
+          <app-button text="Increment" (click)="increment()"></app-button>
         </div>
-
+  
         <div>
-        <app-button text="Decrement" (click)="decrement()"></app-button>
+          <app-button text="Decrement" (click)="decrement()"></app-button>
         </div>
-
+  
         <div>
-        <app-button text="Reset" (click)="reset()"></app-button>
+          <app-button text="Reset" (click)="reset()"></app-button>
         </div>
-
+  
         <app-button text="undo" (click)="undoLastAction()"></app-button>
-
+  
         <div>
-            <div>
-                <input type="number" #inputValue placeholder="Enter any number"  class="border border-[#74A7A9] rounded-xl p-4 text-sm"/>
+          <div>
+            <input
+              type="number"
+              formControlName="inputValue"
+              placeholder="Enter any number"
+              class="border border-[#74A7A9] rounded-xl p-4 text-sm"
+            />
+            <div *ngIf="form.get('inputValue')?.invalid && form.get('inputValue')?.touched">
+              <p class="text-red-500">Please enter a valid number.</p>
             </div>
-            <div>
-                <app-button text="Increment By" (click)="incrementBy(inputValue.valueAsNumber)"></app-button>
-                <app-button text="Decrement By"  (click)="decrementBy(inputValue.valueAsNumber)"></app-button>
-            </div>
+          </div>
+  
+          <div>
+            <app-button text="Increment By" (click)="incrementBy()"></app-button>
+            <app-button text="Decrement By" (click)="decrementBy()"></app-button>
+          </div>
         </div>
 
+      </div>
     </div>
-</div>
+  </form>
+  

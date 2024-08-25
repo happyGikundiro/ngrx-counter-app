@@ -1,25 +1,33 @@
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as CounterActions from '../../store/actions/counter.actions';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CounterState } from '../../store/reducers/counter.reducer';
 import { CounterHistoryState } from '../../store/reducers/counter-history.reducer'; 
+import * as CounterActions from '../../store/actions/counter.actions';
+import { currentCounter } from '../../store/selectors/counter.selectors';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-counter',
   templateUrl: './counter.component.html',
   styleUrl: './counter.component.css'
 })
-export class CounterComponent {
+export class CounterComponent implements OnInit{
 
-  counts$: Observable<number>;
-  history$: Observable<number[]>;
+  form!: FormGroup;
+  counts$!: Observable<number>;
+  history$!: Observable<number[]>;
 
-  constructor(private store: Store<{ counter: CounterState, counterHistory: CounterHistoryState }>) {
-    this.counts$ = store.select('counter').pipe(map(state => state.counter));
-    this.history$ = store.select('counterHistory').pipe(map(state => state.history));
+  constructor(private fb: FormBuilder, private store: Store<{ counterHistory: CounterHistoryState }>) {}
+
+  ngOnInit() {
+    this.form = this.fb.group({
+      inputValue: [null, [Validators.required, Validators.min(0)]]
+    });
+
+    this.counts$ = this.store.select(currentCounter);
+    this.history$ = this.store.select('counterHistory').pipe(map(state => state.history));
   }
 
   increment() {
@@ -34,12 +42,18 @@ export class CounterComponent {
     this.store.dispatch(CounterActions.reset());
   }
 
-  incrementBy(value: number) {
-    this.store.dispatch(CounterActions.incrementBy({ value }));
+  incrementBy() {
+    const value = this.form.get('inputValue')?.value;
+    if (this.form.valid && value !== null) {
+      this.store.dispatch(CounterActions.incrementBy({ value }));
+    }
   }
 
-  decrementBy(value: number) {
-    this.store.dispatch(CounterActions.decrementBy({ value }));
+  decrementBy() {
+    const value = this.form.get('inputValue')?.value;
+    if (this.form.valid && value !== null) {
+      this.store.dispatch(CounterActions.decrementBy({ value }));
+    }
   }
 
   undoLastAction() {
@@ -49,4 +63,12 @@ export class CounterComponent {
       this.store.dispatch(CounterActions.setCounter({ counter: lastValue }));
     });
   }
+  
+  onSubmit() {
+    const value = this.form.get('inputValue')?.value;
+    if (this.form.valid && value !== null) {
+      console.log('Form submitted with value:', value);
+    }
+  }
 }
+
