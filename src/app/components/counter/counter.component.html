@@ -1,8 +1,10 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="min-h-screen flex items-center justify-center">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-full max-w-4xl">
     <div class="bg-white p-6 rounded-xl ">
       <p class="text-center text-2xl py-5">{{counts$ | async}}</p>
   
-      <div class="block sm:flex gap-8">
+      <div>
+        <div class="space-y-4 sm:space-y-0 sm:grid sm: grid-cols-2 sm:gap-4">
         <div>
           <app-button text="Increment" (click)="increment()"></app-button>
         </div>
@@ -15,28 +17,39 @@
           <app-button text="Reset" (click)="reset()"></app-button>
         </div>
   
-        <app-button text="undo" (click)="undoLastAction()"></app-button>
-  
         <div>
+        <app-button text="undo" (click)="undoLastAction()"></app-button>
+        </div>
+        </div>
+  
+        <div class="pt-10">
+            <p class="text-md pb-5">Adjust the counter by entering a number below and selecting either Increment By or Decrement By.</p>
+
+          <div class="space-y-4 sm:grid sm:grid-cols-2 sm:items-center sm:gap-4">
           <div>
             <input
               type="number"
               formControlName="inputValue"
               placeholder="Enter any number"
-              class="border border-[#74A7A9] rounded-xl p-4 text-sm"
+              class="border border-[#74A7A9] rounded-xl p-4 text-sm w-full"
             />
             <div *ngIf="form.get('inputValue')?.invalid && form.get('inputValue')?.touched">
               <p class="text-red-500">Please enter a valid number.</p>
             </div>
           </div>
   
-          <div>
+          <div class="space-y-4">
+            <div>
             <app-button text="Increment By" (click)="incrementBy()"></app-button>
+            </div>
+            <div>
             <app-button text="Decrement By" (click)="decrementBy()"></app-button>
+            </div>
+          </div>
           </div>
         </div>
 
       </div>
     </div>
   </form>
-  
+</div>
