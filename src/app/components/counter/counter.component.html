@@ -13,5 +13,18 @@
         <div>
         <app-button text="Reset" (click)="reset()"></app-button>
         </div>
+
+        <app-button text="undo" (click)="undoLastAction()"></app-button>
+
+        <div>
+            <div>
+                <input type="number" #inputValue placeholder="Enter any number"  class="border border-[#74A7A9] rounded-xl p-4 text-sm"/>
+            </div>
+            <div>
+                <app-button text="Increment By" (click)="incrementBy(inputValue.valueAsNumber)"></app-button>
+                <app-button text="Decrement By"  (click)="decrementBy(inputValue.valueAsNumber)"></app-button>
+            </div>
+        </div>
+
     </div>
 </div>
